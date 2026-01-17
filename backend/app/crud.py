@@ -1,41 +1,63 @@
 from sqlalchemy.orm import Session
-from app.models import Employee, Attendance
-from app.schemas import EmployeeCreate, AttendanceCreate
-from fastapi import HTTPException, status
-from datetime import date
+from app import models, schemas
 
-# Employees
+
+# =========================
+# Employee CRUD
+# =========================
+
 def get_employees(db: Session):
-    return db.query(Employee).all()
+    return db.query(models.Employee).all()
+
 
 def get_employee(db: Session, employee_id: int):
-    return db.query(Employee).filter(Employee.id == employee_id).first()
+    return db.query(models.Employee).filter(
+        models.Employee.id == employee_id
+    ).first()
 
-def create_employee(db: Session, emp: EmployeeCreate):
-    existing = db.query(Employee).filter(Employee.email == emp.email).first()
-    if existing:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Employee with this email already exists")
-    db_emp = Employee(**emp.dict())
-    db.add(db_emp)
+
+def get_employee_by_email(db: Session, email: str):
+    return db.query(models.Employee).filter(
+        models.Employee.email == email
+    ).first()
+
+
+def create_employee(db: Session, emp: schemas.EmployeeCreate):
+    employee = models.Employee(
+        name=emp.name,
+        email=emp.email,
+        department=emp.department
+    )
+    db.add(employee)
     db.commit()
-    db.refresh(db_emp)
-    return db_emp
+    db.refresh(employee)
+    return employee
+
 
 def delete_employee(db: Session, employee_id: int):
-    emp = get_employee(db, employee_id)
-    if not emp:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Employee not found")
-    db.delete(emp)
-    db.commit()
-    return {"detail": "Employee deleted"}
+    employee = get_employee(db, employee_id)
+    if employee:
+        db.delete(employee)
+        db.commit()
 
-# Attendance
+
+# =========================
+# Attendance CRUD
+# =========================
+
 def get_attendance(db: Session, employee_id: int):
-    return db.query(Attendance).filter(Attendance.employee_id == employee_id).all()
+    return db.query(models.Attendance).filter(
+        models.Attendance.employee_id == employee_id
+    ).all()
 
-def create_attendance(db: Session, att: AttendanceCreate):
-    db_att = Attendance(**att.dict())
-    db.add(db_att)
+
+def create_attendance(db: Session, att: schemas.AttendanceCreate):
+    attendance = models.Attendance(
+        employee_id=att.employee_id,
+        date=att.date,
+        status=att.status
+    )
+    db.add(attendance)
     db.commit()
-    db.refresh(db_att)
-    return db_att
+    db.refresh(attendance)
+    return attendance
