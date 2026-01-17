@@ -80,39 +80,34 @@ export default function Dashboard() {
     ],
   };
 
-  // Chart options for responsive sizing
   const chartOptions = {
     responsive: true,
-    maintainAspectRatio: false, // allow height to control chart size
-    plugins: {
-      legend: {
-        position: "bottom",
-      },
-    },
+    maintainAspectRatio: false,
+    plugins: { legend: { position: "bottom" } },
   };
 
   return (
     <MainLayout>
       {/* ===== Stat Cards ===== */}
       <div className="row g-4 mb-4">
-        <div className="col-md-3">
+        <div className="col-md-3 col-sm-6">
           <StatCard title="Employees" value={stats.employees} icon="👥" bg="bg-primary" />
         </div>
-        <div className="col-md-3">
+        <div className="col-md-3 col-sm-6">
           <StatCard title="Total Attendance" value={stats.totalAttendance} icon="🗓️" bg="bg-warning" />
         </div>
-        <div className="col-md-3">
+        <div className="col-md-3 col-sm-6">
           <StatCard title="Present Today" value={stats.presentToday} icon="✅" bg="bg-success" />
         </div>
-        <div className="col-md-3">
+        <div className="col-md-3 col-sm-6">
           <StatCard title="Absent Today" value={stats.absentToday} icon="❌" bg="bg-danger" />
         </div>
       </div>
 
-      {/* ===== Charts ===== */}
+      {/* ===== Charts Section ===== */}
       <div className="row g-4">
-        <div className="col-lg-6">
-          <div className="card shadow-sm h-100 p-3">
+        <div className="col-lg-6 col-md-12">
+          <div className="card shadow-sm h-100 p-3 rounded-3">
             <h5 className="text-center mb-3">Today Attendance</h5>
             <div style={{ height: "300px" }}>
               <Pie data={pieData} options={chartOptions} />
@@ -120,8 +115,8 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="col-lg-6">
-          <div className="card shadow-sm h-100 p-3">
+        <div className="col-lg-6 col-md-12">
+          <div className="card shadow-sm h-100 p-3 rounded-3">
             <h5 className="text-center mb-3">Overall Stats</h5>
             <div style={{ height: "300px" }}>
               <Bar data={barData} options={chartOptions} />

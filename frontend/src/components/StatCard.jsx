@@ -2,7 +2,7 @@ import React from "react";
 
 export default function StatCard({ title, value, icon, bg }) {
   return (
-    <div className="col-md-4 mb-3">
+    <div className="col-md-12 mb-3">
       <div className={`card text-white ${bg} shadow-sm`}>
         <div className="card-body text-center">
           <div className="mb-2 fs-2">{icon}</div>
