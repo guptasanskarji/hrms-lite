@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from models import Employee, Attendance
-from schemas import EmployeeCreate, AttendanceCreate
+from app.models import Employee, Attendance
+from app.schemas import EmployeeCreate, AttendanceCreate
 from fastapi import HTTPException, status
 from datetime import date
 
