@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { Modal, Button, Form, Row, Col, Image } from "react-bootstrap";
+import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 
 export default function EmployeeForm({ show, onHide, onSubmit }) {
-  const [form, setForm] = useState({ name: "", email: "", department: "", avatar: null });
+  const [form, setForm] = useState({ name: "", email: "", department: "" });
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-
 
   const handleSubmit = () => {
     if (!form.name || !form.email || !form.department) {
@@ -13,73 +12,37 @@ export default function EmployeeForm({ show, onHide, onSubmit }) {
       return;
     }
     onSubmit(form);
-    setForm({ name: "", email: "", department: "", avatar: null });
+    setForm({ name: "", email: "", department: "" });
   };
 
   return (
-    <Modal 
-      show={show} 
-      onHide={onHide} 
-      centered 
-      className="rounded-4 shadow-lg"
-    >
-      <Modal.Header closeButton className="border-0">
-        <Modal.Title className="fw-bold">Add Employee</Modal.Title>
+    <Modal show={show} onHide={onHide} centered>
+      <Modal.Header closeButton>
+        <Modal.Title>Add Employee</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
-          
-
-          <Row className="mb-3">
+          <Row>
             <Col md={6}>
-              <Form.Label className="fw-semibold">Full Name <span className="text-danger">*</span></Form.Label>
-              <Form.Control 
-                name="name" 
-                value={form.name} 
-                onChange={handleChange} 
-                placeholder="Enter full name" 
-                className="rounded-pill"
-              />
+              <Form.Label>Full Name *</Form.Label>
+              <Form.Control name="name" value={form.name} onChange={handleChange} />
             </Col>
             <Col md={6}>
-              <Form.Label className="fw-semibold">Email <span className="text-danger">*</span></Form.Label>
-              <Form.Control 
-                type="email" 
-                name="email" 
-                value={form.email} 
-                onChange={handleChange} 
-                placeholder="Enter email address" 
-                className="rounded-pill"
-              />
+              <Form.Label>Email *</Form.Label>
+              <Form.Control type="email" name="email" value={form.email} onChange={handleChange} />
             </Col>
           </Row>
-
-          <Row className="mb-3">
+          <Row className="mt-3">
             <Col md={6}>
-              <Form.Label className="fw-semibold">Department <span className="text-danger">*</span></Form.Label>
-              <Form.Control 
-                name="department" 
-                value={form.department} 
-                onChange={handleChange} 
-                placeholder="Enter department" 
-                className="rounded-pill"
-              />
+              <Form.Label>Department *</Form.Label>
+              <Form.Control name="department" value={form.department} onChange={handleChange} />
             </Col>
           </Row>
         </Form>
       </Modal.Body>
-
-      <Modal.Footer className="border-0">
-        <Button variant="outline-secondary" onClick={onHide} className="rounded-pill px-4">
-          Cancel
-        </Button>
-        <Button 
-          onClick={handleSubmit} 
-          className="rounded-pill px-4 text-white" 
-          style={{ background: "linear-gradient(90deg, #007bff, #00c6ff)", border: "none" }}
-        >
-          Save
-        </Button>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={onHide}>Cancel</Button>
+        <Button variant="primary" onClick={handleSubmit}>Save</Button>
       </Modal.Footer>
     </Modal>
   );
