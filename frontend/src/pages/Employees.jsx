@@ -30,28 +30,39 @@ export default function Employees() {
   }, []);
 
   // Add employee
-  const handleAdd = async (data) => {
-    try {
-      await api.post("/employees", data);
-      setShowForm(false);
-      fetchEmployees();
-    } catch (err) {
-      console.error(err);
-      alert("Error adding employee");
-    }
-  };
+const handleAdd = async (data) => {
+  try {
+    await api.post("/employees", data);
+    setShowForm(false);
+    fetchEmployees();
+  } catch (err) {
+    console.error(err);
+
+    const message =
+      err.response?.data?.detail || "Something went wrong";
+
+    alert(message);
+  }
+};
+
 
   // Delete employee
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this employee?")) return;
-    try {
-      await api.delete(`/employees/${id}`);
-      fetchEmployees();
-    } catch (err) {
-      console.error(err);
-      alert("Error deleting employee");
-    }
-  };
+const handleDelete = async (id) => {
+  if (!window.confirm("Are you sure you want to delete this employee?")) return;
+
+  try {
+    await api.delete(`/employees/${id}`);
+    fetchEmployees();
+  } catch (err) {
+    console.error(err);
+
+    const message =
+      err.response?.data?.detail || "Error deleting employee";
+
+    alert(message);
+  }
+};
+
 
 return (
   <MainLayout>
